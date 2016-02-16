@@ -67,21 +67,21 @@ class FineChests extends PluginBase implements CommandExecutor, Listener
         	}
         	$this->chest=$this->config->get("chest");
         	$this->set=array();
-    		$sender->sendMessage("[FineChests] Успешно перезагружено");
+    		$sender->sendMessage("[FineChests] successfully reset");
     		break;
     	case "reset":
     		$this->ResetChest();
-    		$sender->sendMessage("[FineChests] Вещи перезагружены");
+    		$sender->sendMessage("[FineChests] Things overwhelmed");
     		break;
     	case "clear":
     		$this->ClearChest();
-    		$sender->sendMessage("[FineChests] Сундуки очищены");
+    		$sender->sendMessage("[FineChests] Chests cleared");
     		break;
     	case "add":
     	case "remove":
-    		if(!$sender instanceof Player){$sender->sendMessage("[FineChests] Нельзя выбирать сундуки с консоли !");break;};
+    		if(!$sender instanceof Player){$sender->sendMessage("[FineChests] You can not take the trunks from the console!");break;};
     		$this->set[$sender->getName()] = $args[0];
-            $sender->sendMessage("[FineChests] Тыкни сундук");
+            $sender->sendMessage("[FineChests] tyknite chest");
     		break;
     	default:
     		unset($sender,$cmd,$label,$args);
@@ -104,7 +104,7 @@ class FineChests extends PluginBase implements CommandExecutor, Listener
         {
         	if($block->getId()!=54)
         	{
-        		$event->getPlayer()->sendMessage("[FineChests] Тыкни сундук");
+        		$event->getPlayer()->sendMessage("[FineChests] tyknite chest");
             	unset($event,$block,$key,$val);
             	return;
         	}
@@ -117,7 +117,7 @@ class FineChests extends PluginBase implements CommandExecutor, Listener
             	{
             		if($val["x"]==$block->getX() && $val["y"]==$block->getY() && $val["z"]==$block->getZ() && $val["level"]==$block->getLevel()->getFolderName())
             		{
-            			$event->getPlayer()->sendMessage("[FineChests] Этот сундук уже в списке");
+            			$event->getPlayer()->sendMessage("[FineChests] This chest is already in the list");
             			unset($event,$block,$key,$val);
             			return;
             		}
@@ -129,16 +129,16 @@ class FineChests extends PluginBase implements CommandExecutor, Listener
             	$tmp["level"]=$block->getLevel()->getFolderName();
                 $this->chest[]=$tmp;
                 unset($tmp,$key,$val);
-                $event->getPlayer()->sendMessage("[FineChests] Сундук добавлен в список !");
+                $event->getPlayer()->sendMessage("[FineChests] Chest added to the list!");
                 break;
             case "remove":
-            	$msg="[FineChests] Этот сундук не в списке !";
+            	$msg="[FineChests] This chest is not in the list!";
                 foreach($this->chest as $key=>$val)
             	{
             		if($val["x"]==$block->getX() && $val["y"]==$block->getY() && $val["z"]==$block->getZ() && $val["level"]==$block->getLevel()->getFolderName())
             		{
             			array_splice($this->chest,$key,1);
-            			$msg="[FineChests] Сундук удален из списка !";
+            			$msg="[FineChests] Chest removed from the list!";
             			break;
             		}
             	}
@@ -160,12 +160,12 @@ class FineChests extends PluginBase implements CommandExecutor, Listener
         	{
         		if(!$event->getPlayer()->isOp())
         		{
-        			$event->getPlayer()->sendMessage("[FineChests]Ты не админ !");
+        			$event->getPlayer()->sendMessage("[FineChests] You're not OP!");
         			$event->setCancelled();
         			break;
         		}
             	array_splice($this->chest,$key,1);
-            	$event->getPlayer()->sendMessage("[FineChests] Сундук удален из списка !");
+            	$event->getPlayer()->sendMessage("[FineChests] Chest removed from the list!");
             	break;
             }
         }
